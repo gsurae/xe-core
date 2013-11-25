@@ -2389,6 +2389,36 @@ class memberController extends member
 	}
 
 	/**
+	 * trigger for comment.getCommentMenu. Append to popup menu a button for procMemberSpammerManage()
+	 * 
+	 * @param array &$menu_list 
+	 * 
+	 * @return object
+	**/
+	function triggerGetCommentMenu(&$menu_list)
+	{
+		if(!Context::get('is_logged')) return new Object();
+
+		$logged_info = Context::get('logged_info');
+		$comment_srl = Context::get('target_srl');
+
+		$oCommentModel = &getModel('comment');
+		$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
+		$oComment = $oCommentModel->getComment($comment_srl, FALSE, $columnList);
+		$module_srl = $oComment->get('module_srl');
+		$member_srl = $oComment->get('member_srl');
+
+		if(!$member_srl) return new Object();
+		if($oCommentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return new Object();
+
+		$oCommentController = &getController('comment');
+		$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',$module_srl);
+		$oCommentController->addCommentPopupMenu($url,'cmd_spammer','','popup');
+
+		return new Object();
+	}
+
+	/**
 	 * Spammer manage. Denied user login. And delete or trash all documents. Response Ajax string
 	 * 
 	 * @return object

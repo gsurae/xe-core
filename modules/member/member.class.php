@@ -146,6 +146,7 @@ class member extends ModuleObject {
 
 		// 2013. 11. 22 add menu when popup document menu called
 		$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
+		$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
 
 		return new Object();
 	}
@@ -213,6 +214,7 @@ class member extends ModuleObject {
 
 		// 2013. 11. 22 add menu when popup document menu called
 		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after')) return true;
+		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after')) return true;
 
 		return false;
 	}
@@ -354,6 +356,8 @@ class member extends ModuleObject {
 		// 2013. 11. 22 add menu when popup document menu called
 		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after'))
 			$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
+		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after'))
+			$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
 
 		return new Object(0, 'success_updated');
 	}
